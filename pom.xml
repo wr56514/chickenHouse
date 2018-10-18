@@ -9,7 +9,7 @@
     <packaging>war</packaging>
 
     <name>chicken-house</name>
-    <description>Web app for chicken hauses management</description>
+    <description>Web app for chicken houses management</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
