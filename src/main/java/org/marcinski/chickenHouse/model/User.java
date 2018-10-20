@@ -26,9 +26,8 @@ public class User {
     @Length(message = "Your password must have at least 5 characters!")
     private String password;
 
-    @Column(name = "name")
-    @NotEmpty(message ="Please provide your login name!")
-    private String loginName;
+    @NotEmpty(message ="Please provide your name!")
+    private String name;
 
     private boolean active;
 
