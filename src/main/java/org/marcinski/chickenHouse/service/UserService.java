@@ -7,8 +7,8 @@ import org.marcinski.chickenHouse.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -26,10 +26,9 @@ public class UserService {
         this.encoder = encoder;
     }
 
-    public User findUserByEmail(String email) {
+    public Optional<User> findUserByEmail(String email) {
         return userRepository
-                .findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("There is no user with given email"));
+                .findByEmail(email);
     }
 
     public void saveUser(User user){
