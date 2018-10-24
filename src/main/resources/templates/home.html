@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Strona domowa</title>
+
+    <th:block th:include="partials/scripts_css" />
+</head>
+
+<body>
+
+<div class="container">
+    <form th:action="@{/logout}" method="get">
+        <button class="btn btn-md btn-danger btn-block" name="registration"
+                type="Submit">Logout
+        </button>
+    </form>
+
+    <h1 th:utext="${userName}"></h1>
+    <br>
+    <p th:utext="${userMessage}"></p>
+
+</div>
+
+</body>
+</html>
