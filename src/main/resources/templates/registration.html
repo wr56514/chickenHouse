@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rejestracja</title>
+
+    <th:block th:include="partials/scripts_css" />
+</head>
+<body>
+
+<div class="container">
+    <form th:action="@{/login}" method="get">
+        <button class="btn btn-md btn-warning btn-block" type="Submit">Strona logowania</button>
+    </form>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3" style="margin:auto">
+            <form autocomplete="off" action="#" th:action="@{/registration}"
+                  th:object="${user}" method="post" class="form-horizontal"
+                  role="form">
+                <h2>Formularz rejestracyjny</h2>
+
+                <input type="text" th:field="*{name}" placeholder="Imie"
+                       class="form-control" />
+                <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                       class="validation-message"></label>
+                <br>
+
+                <input type="text" th:field="*{email}" placeholder="Email"
+                       class="form-control" />
+                <label
+                        th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                        class="validation-message"></label>
+                <br>
+
+                <input type="password" th:field="*{password}"
+                       placeholder="Hasło" class="form-control" />
+                <label
+                        th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                        class="validation-message"></label>
+                <br>
+
+                <button type="submit" class="btn btn-primary btn-block">Zarejestruj się</button>
+
+                <span th:utext="${successMessage}"></span>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
