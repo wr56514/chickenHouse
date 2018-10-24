@@ -18,15 +18,15 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Email(message = "Please provide a valid email!")
-    @NotEmpty(message = "Please provide a email!")
+    @Email(message = "Wpisz email w poprawnej formie!")
+    @NotEmpty(message = "Wpisz email!")
     private String email;
 
-    @NotEmpty(message = "Please provide your password!")
-    @Length(message = "Your password must have at least 5 characters!")
+    @NotEmpty(message = "Wpisz hasło!")
+    @Length(min = 5, message = "Hasło musi mieć przynajmniej 5 znaków!")
     private String password;
 
-    @NotEmpty(message ="Please provide your name!")
+    @NotEmpty(message ="Wpisz swoje imie!")
     private String name;
 
     private boolean active;
