@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Strona logowania</title>
+
+    <th:block th:include="partials/scripts_css" />
+</head>
+
+<body>
+
+<div class="container">
+    <form th:action="@{/registration}" method="get">
+        <button class="btn btn-md btn-warning btn-block" type="Submit">Rejestracja</button>
+    </form>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3" style="margin: auto">
+            <form th:action="@{/login}" method="POST" class="form-horizontal">
+                <h3 class="form-signin-heading" th:text="Witamy"></h3>
+
+                <input type="text" id="email" name="email"  th:placeholder="Email"
+                       class="form-control" /> <br>
+                <input type="password"  th:placeholder="Hasło"
+                       id="password" name="password" class="form-control" /> <br>
+
+                <div align="center" th:if="${param.error}">
+                    <p style="font-size: 20; color: #FF1C19;">Błędny email lub hasło, spróbuj ponownie</p>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit" th:text="Zaloguj"></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
