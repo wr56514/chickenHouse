@@ -1,6 +1,6 @@
 package org.marcinski.chickenHouse.controller;
 
-import org.marcinski.chickenHouse.entity.User;
+import org.marcinski.chickenHouse.dto.UserDto;
 import org.marcinski.chickenHouse.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,8 +23,8 @@ public class HomeController {
     public ModelAndView home(){
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> userByEmail = userService.findUserByEmail(auth.getName());
-        User user = null;
+        Optional<UserDto> userByEmail = userService.findUserByEmail(auth.getName());
+        UserDto user = null;
         if (userByEmail.isPresent()){
             user = userByEmail.get();
         }

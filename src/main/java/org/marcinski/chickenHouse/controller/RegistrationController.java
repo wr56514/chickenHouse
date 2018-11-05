@@ -1,6 +1,6 @@
 package org.marcinski.chickenHouse.controller;
 
-import org.marcinski.chickenHouse.entity.User;
+import org.marcinski.chickenHouse.dto.UserDto;
 import org.marcinski.chickenHouse.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,26 +23,27 @@ public class RegistrationController {
     @GetMapping("/registration")
     public ModelAndView registration(){
         ModelAndView modelAndView = new ModelAndView();
-        User user = new User();
-        modelAndView.addObject("user", user);
+        UserDto userDto = new UserDto();
+        modelAndView.addObject("userDto", userDto);
         modelAndView.setViewName("registration");
         return modelAndView;
     }
 
     @PostMapping("/registration")
-    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult){
+    public ModelAndView createNewUser(@Valid UserDto userDto, BindingResult bindingResult){
         ModelAndView modelAndView = new ModelAndView();
-        Optional<User> userExists = userService.findUserByEmail(user.getEmail());
-        if (!userExists.equals(Optional.empty())){
+        Optional<UserDto> userInDb = userService.findUserByEmail(userDto.getEmail());
+
+        if (!userInDb.equals(Optional.empty())){
             bindingResult.rejectValue("email", "error.user",
                     "Istnieje już użytkownik o podanym emailu!");
         }
         if (bindingResult.hasErrors()){
             modelAndView.setViewName("registration");
         }else {
-            userService.saveUser(user);
+            userService.saveUser(userDto);
             modelAndView.addObject("successMessage", "Użytkownik został zarejestrowany");
-            modelAndView.addObject("user", new User());
+            modelAndView.addObject("userDto", new UserDto());
             modelAndView.setViewName("registration");
         }
         return modelAndView;

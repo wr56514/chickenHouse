@@ -1,7 +1,9 @@
 package org.marcinski.chickenHouse.service;
 
+import org.marcinski.chickenHouse.dto.UserDto;
 import org.marcinski.chickenHouse.entity.Role;
 import org.marcinski.chickenHouse.entity.User;
+import org.marcinski.chickenHouse.mapper.UserMapper;
 import org.marcinski.chickenHouse.repository.RoleRepository;
 import org.marcinski.chickenHouse.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,22 +28,34 @@ public class UserService {
         this.encoder = encoder;
     }
 
-    public Optional<User> findUserByEmail(String email) {
-        return userRepository
-                .findByEmail(email);
+    public Optional<UserDto> findUserByEmail(String email) {
+        Optional<User> userByEmail = userRepository.findByEmail(email);
+        UserDto userDto = null;
+        if (userByEmail.isPresent()) {
+            userDto = UserMapper.INSTANCE.mapUserEntityToUserDto(userByEmail.get());
+        }
+        return Optional.ofNullable(userDto);
     }
 
-    public void saveUser(User user){
-        if (!userRepository.findByEmail(user.getEmail()).isPresent()){
-            user.setPassword(encoder.encode(user.getPassword()));
-            user.setActive(true);
-
-            Role userRole = roleRepository.findByRole("USER");
-            Set<Role> roles = new HashSet<>();
-            roles.add(userRole);
-            user.setRoles(roles);
-
-            userRepository.save(user);
+    public void saveUser(UserDto userDto) {
+        if (userDto != null) {
+            String email = userDto.getEmail();
+            if (!userRepository.findByEmail(email).isPresent()) {
+                User user = createNewUser(userDto);
+                userRepository.save(user);
+            }
         }
+    }
+
+    private User createNewUser(UserDto userDto) {
+        User user = UserMapper.INSTANCE.mapUserDtoToUserEntity(userDto);
+        user.setPassword(encoder.encode(user.getPassword()));
+        user.setActive(true);
+
+        Role userRole = roleRepository.findByRole("USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(userRole);
+        user.setRoles(roles);
+        return user;
     }
 }
