@@ -1,6 +1,6 @@
 package org.marcinski.chickenHouse.controller;
 
-import org.marcinski.chickenHouse.model.User;
+import org.marcinski.chickenHouse.entity.User;
 import org.marcinski.chickenHouse.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

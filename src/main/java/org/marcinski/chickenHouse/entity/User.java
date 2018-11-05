@@ -1,4 +1,4 @@
-package org.marcinski.chickenHouse.model;
+package org.marcinski.chickenHouse.entity;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

@@ -1,7 +1,7 @@
 package org.marcinski.chickenHouse.service;
 
-import org.marcinski.chickenHouse.model.Role;
-import org.marcinski.chickenHouse.model.User;
+import org.marcinski.chickenHouse.entity.Role;
+import org.marcinski.chickenHouse.entity.User;
 import org.marcinski.chickenHouse.repository.RoleRepository;
 import org.marcinski.chickenHouse.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
