@@ -95,6 +95,12 @@
             <version>1.14.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.2.0.Final</version>
+        </dependency>
+
     </dependencies>
 
     <build>
