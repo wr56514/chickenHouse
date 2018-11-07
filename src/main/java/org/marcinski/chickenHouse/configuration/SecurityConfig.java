@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration").permitAll()
-                .antMatchers("/home/**").hasAnyAuthority("USER").anyRequest()
+                .antMatchers("/home/**", "new_house").hasAnyAuthority("USER").anyRequest()
                 .authenticated()
                 .and()
                 .rememberMe()
