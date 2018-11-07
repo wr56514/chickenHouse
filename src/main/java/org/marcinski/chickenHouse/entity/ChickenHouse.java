@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public class ChickenHouse {
     @NotEmpty(message = "Please provide a name of chicken house")
     private String name;
 
-    @NotEmpty(message = "Please provide area!")
+    @Min(0)
     @Column(name = "area")
     private int areaOfHouse;
 
