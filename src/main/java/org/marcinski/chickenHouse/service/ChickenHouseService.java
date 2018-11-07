@@ -3,6 +3,7 @@ package org.marcinski.chickenHouse.service;
 import org.marcinski.chickenHouse.dto.ChickenHouseDto;
 import org.marcinski.chickenHouse.entity.ChickenHouse;
 import org.marcinski.chickenHouse.mapper.ChickenHouseMapper;
+import org.marcinski.chickenHouse.mapper.UserMapper;
 import org.marcinski.chickenHouse.repository.ChickenHouseRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +24,11 @@ public class ChickenHouseService {
         return byUserId.stream()
                 .map(ChickenHouseMapper.INSTANCE::mapToChickenHouseDto)
                 .collect(Collectors.toList());
+    }
+
+    public void saveChickenHouse(ChickenHouseDto chickenHouseDto) {
+        ChickenHouse chickenHouse = ChickenHouseMapper.INSTANCE.mapToChickenHouse(chickenHouseDto);
+        chickenHouse.setUser(UserMapper.INSTANCE.mapUserDtoToUserEntity(chickenHouseDto.getUserDto()));
+        chickenHouseRepository.save(chickenHouse);
     }
 }
