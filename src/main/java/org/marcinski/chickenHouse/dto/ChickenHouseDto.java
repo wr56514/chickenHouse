@@ -2,6 +2,7 @@ package org.marcinski.chickenHouse.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public class ChickenHouseDto {
 
     @NotEmpty(message = "Please provide a name of chicken house")
     private String name;
-    @NotEmpty(message = "Please provide area!")
+    @Min(0)
     private int areaOfHouse;
 
     private Set<CycleDto> cyclesDto;
