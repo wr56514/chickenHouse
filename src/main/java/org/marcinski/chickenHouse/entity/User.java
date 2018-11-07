@@ -39,7 +39,6 @@ public class User {
     )
     private Set<Role> roles;
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    @OneToMany(mappedBy = "user")
     private Set<ChickenHouse> chickenHouses;
 }
