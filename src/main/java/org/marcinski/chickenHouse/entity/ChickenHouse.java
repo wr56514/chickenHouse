@@ -1,6 +1,7 @@
 package org.marcinski.chickenHouse.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -26,4 +27,9 @@ public class ChickenHouse {
     @OneToMany
     @JoinColumn(name = "house_id")
     private Set<Cycle> cycles;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    private User user;
 }
