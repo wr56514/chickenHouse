@@ -44,7 +44,7 @@ public class HomeController {
         Cookie[] cookies = request.getCookies();
         Long userId = getUserId(cookies);
 
-        List<ChickenHouseDto> chickenHouseDto = chickenHouseService.getChickenHouseDtoByUserId(userId);
+        List<ChickenHouseDto> chickenHouseDto = chickenHouseService.findChickenHouseDtoByUserId(userId);
 
         modelAndView.addObject("houses", chickenHouseDto);
         modelAndView.setViewName("home");
