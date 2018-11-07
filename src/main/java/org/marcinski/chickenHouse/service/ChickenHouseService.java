@@ -18,7 +18,7 @@ public class ChickenHouseService {
         this.chickenHouseRepository = chickenHouseRepository;
     }
 
-    public List<ChickenHouseDto> getChickenHouseDtoByUserId(Long userId) {
+    public List<ChickenHouseDto> findChickenHouseDtoByUserId(Long userId) {
         List<ChickenHouse> byUserId = chickenHouseRepository.findAllByUserId(userId);
         return byUserId.stream()
                 .map(ChickenHouseMapper.INSTANCE::mapToChickenHouseDto)
