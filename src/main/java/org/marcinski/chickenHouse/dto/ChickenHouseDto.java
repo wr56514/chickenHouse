@@ -16,4 +16,6 @@ public class ChickenHouseDto {
     private int areaOfHouse;
 
     private Set<CycleDto> cyclesDto;
+
+    private UserDto userDto;
 }
