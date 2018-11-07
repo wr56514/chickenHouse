@@ -47,6 +47,15 @@ public class UserService {
         }
     }
 
+    public Optional<UserDto> findUserById(Long userId) {
+        Optional<User> userById = userRepository.findById(userId);
+        UserDto userDto = null;
+        if (userById.isPresent()){
+            userDto = UserMapper.INSTANCE.mapUserEntityToUserDto(userById.get());
+        }
+        return Optional.ofNullable(userDto);
+    }
+
     private User createNewUser(UserDto userDto) {
         User user = UserMapper.INSTANCE.mapUserDtoToUserEntity(userDto);
         user.setPassword(encoder.encode(user.getPassword()));
