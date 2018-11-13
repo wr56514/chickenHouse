@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -33,6 +34,9 @@ public class UserService {
         UserDto userDto = null;
         if (userByEmail.isPresent()) {
             userDto = UserMapper.INSTANCE.mapUserEntityToUserDto(userByEmail.get());
+            //TODO
+            //nie działa mapowanie?
+            userDto.setUuid(UUID.fromString(userByEmail.get().getUuid()));
         }
         return Optional.ofNullable(userDto);
     }
@@ -47,8 +51,8 @@ public class UserService {
         }
     }
 
-    public Optional<UserDto> findUserById(Long userId) {
-        Optional<User> userById = userRepository.findById(userId);
+    public Optional<UserDto> findUserByUUID(String userUUID) {
+        Optional<User> userById = userRepository.findByUuid(userUUID);
         UserDto userDto = null;
         if (userById.isPresent()){
             userDto = UserMapper.INSTANCE.mapUserEntityToUserDto(userById.get());
@@ -60,6 +64,8 @@ public class UserService {
         User user = UserMapper.INSTANCE.mapUserDtoToUserEntity(userDto);
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActive(true);
+        UUID uuid = UUID.randomUUID();
+        user.setUuid(uuid.toString());
 
         Role userRole = roleRepository.findByRole("USER");
         Set<Role> roles = new HashSet<>();

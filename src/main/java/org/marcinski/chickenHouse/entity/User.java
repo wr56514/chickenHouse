@@ -26,10 +26,12 @@ public class User {
     @Length(min = 5, message = "Hasło musi mieć przynajmniej 5 znaków!")
     private String password;
 
-    @NotEmpty(message ="Wpisz swoje imie!")
+    @NotEmpty(message ="Wpisz swoje imię!")
     private String name;
 
     private boolean active;
+
+    private String uuid;
 
     @ManyToMany
     @JoinTable(

@@ -42,14 +42,14 @@ public class NewHouseController {
         ModelAndView modelAndView = new ModelAndView();
 
         Cookie[] cookies = request.getCookies();
-        Long userId = null;
+        String userUUID = null;
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("userId")){
-                userId = Long.valueOf(cookie.getValue());
+            if (cookie.getName().equals("user")){
+                userUUID = cookie.getValue();
             }
         }
 
-        Optional<UserDto> userById = userService.findUserById(userId);
+        Optional<UserDto> userById = userService.findUserByUUID(userUUID);
         if (bindingResult.hasErrors()){
             modelAndView.setViewName("new_house");
         }

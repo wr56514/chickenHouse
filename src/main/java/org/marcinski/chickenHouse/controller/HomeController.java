@@ -38,30 +38,30 @@ public class HomeController {
         }
         if (user != null) {
             modelAndView.addObject("greeting", "Cześć " + user.getName());
-            Cookie userCookie = getCookieWithUserId(user);
+            Cookie userCookie = getCookieWithUserUUID(user);
             response.addCookie(userCookie);
         }
         Cookie[] cookies = request.getCookies();
-        Long userId = getUserId(cookies);
+        String userUUID = getUserId(cookies);
 
-        List<ChickenHouseDto> chickenHouseDto = chickenHouseService.findChickenHouseDtoByUserId(userId);
+        List<ChickenHouseDto> chickenHouseDto = chickenHouseService.findChickenHousesDtoByUserUUID(userUUID);
 
         modelAndView.addObject("houses", chickenHouseDto);
         modelAndView.setViewName("home");
         return modelAndView;
     }
 
-    private Cookie getCookieWithUserId(UserDto user) {
-        String name = "userId";
-        String value = String.valueOf(user.getId());
+    private Cookie getCookieWithUserUUID(UserDto user) {
+        String name = "user";
+        String value = user.getUuid().toString();
         return new Cookie(name, value);
     }
 
-    private Long getUserId(Cookie[] cookies) {
-        Long userId = null;
+    private String getUserId(Cookie[] cookies) {
+        String userId = null;
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("userId")){
-                userId = Long.valueOf(cookie.getValue());
+            if (cookie.getName().equals("user")){
+                userId = cookie.getValue();
             }
         }
         return userId;

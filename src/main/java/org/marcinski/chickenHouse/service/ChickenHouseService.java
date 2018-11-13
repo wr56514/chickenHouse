@@ -19,8 +19,8 @@ public class ChickenHouseService {
         this.chickenHouseRepository = chickenHouseRepository;
     }
 
-    public List<ChickenHouseDto> findChickenHouseDtoByUserId(Long userId) {
-        List<ChickenHouse> byUserId = chickenHouseRepository.findAllByUserId(userId);
+    public List<ChickenHouseDto> findChickenHousesDtoByUserUUID(String userUUID) {
+        List<ChickenHouse> byUserId = chickenHouseRepository.findAllByUserUuid(userUUID);
         return byUserId.stream()
                 .map(ChickenHouseMapper.INSTANCE::mapToChickenHouseDto)
                 .collect(Collectors.toList());
@@ -28,6 +28,8 @@ public class ChickenHouseService {
 
     public void saveChickenHouse(ChickenHouseDto chickenHouseDto) {
         ChickenHouse chickenHouse = ChickenHouseMapper.INSTANCE.mapToChickenHouse(chickenHouseDto);
+        //TODO
+        //mapowanie nie działa?
         chickenHouse.setUser(UserMapper.INSTANCE.mapUserDtoToUserEntity(chickenHouseDto.getUserDto()));
         chickenHouseRepository.save(chickenHouse);
     }
