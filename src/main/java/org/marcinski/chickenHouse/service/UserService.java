@@ -33,7 +33,7 @@ public class UserService {
         Optional<User> userByEmail = userRepository.findByEmail(email);
         UserDto userDto = null;
         if (userByEmail.isPresent()) {
-            userDto = UserMapper.INSTANCE.mapUserEntityToUserDto(userByEmail.get());
+            userDto = UserMapper.INSTANCE.mapTo(userByEmail.get());
             //TODO
             //nie działa mapowanie?
             userDto.setUuid(UUID.fromString(userByEmail.get().getUuid()));
@@ -55,13 +55,13 @@ public class UserService {
         Optional<User> userById = userRepository.findByUuid(userUUID);
         UserDto userDto = null;
         if (userById.isPresent()){
-            userDto = UserMapper.INSTANCE.mapUserEntityToUserDto(userById.get());
+            userDto = UserMapper.INSTANCE.mapTo(userById.get());
         }
         return Optional.ofNullable(userDto);
     }
 
     private User createNewUser(UserDto userDto) {
-        User user = UserMapper.INSTANCE.mapUserDtoToUserEntity(userDto);
+        User user = UserMapper.INSTANCE.mapTo(userDto);
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActive(true);
         UUID uuid = UUID.randomUUID();

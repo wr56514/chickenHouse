@@ -30,7 +30,7 @@ public class ChickenHouseService {
         ChickenHouse chickenHouse = ChickenHouseMapper.INSTANCE.mapToChickenHouse(chickenHouseDto);
         //TODO
         //mapowanie nie działa?
-        chickenHouse.setUser(UserMapper.INSTANCE.mapUserDtoToUserEntity(chickenHouseDto.getUserDto()));
+        chickenHouse.setUser(UserMapper.INSTANCE.mapTo(chickenHouseDto.getUserDto()));
         chickenHouseRepository.save(chickenHouse);
     }
 }
