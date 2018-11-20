@@ -3,7 +3,6 @@ package org.marcinski.chickenHouse.service;
 import org.marcinski.chickenHouse.dto.ChickenHouseDto;
 import org.marcinski.chickenHouse.entity.ChickenHouse;
 import org.marcinski.chickenHouse.mapper.ChickenHouseMapper;
-import org.marcinski.chickenHouse.mapper.UserMapper;
 import org.marcinski.chickenHouse.repository.ChickenHouseRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,18 +18,15 @@ public class ChickenHouseService {
         this.chickenHouseRepository = chickenHouseRepository;
     }
 
-    public List<ChickenHouseDto> findChickenHousesDtoByUserUUID(String userUUID) {
-        List<ChickenHouse> byUserId = chickenHouseRepository.findAllByUserUuid(userUUID);
-        return byUserId.stream()
+    public List<ChickenHouseDto> findChickenHousesDtoByUserEmail(String email) {
+        List<ChickenHouse> byUserEmail = chickenHouseRepository.findAllByUserEmail(email);
+        return byUserEmail.stream()
                 .map(ChickenHouseMapper.INSTANCE::mapToChickenHouseDto)
                 .collect(Collectors.toList());
     }
 
     public void saveChickenHouse(ChickenHouseDto chickenHouseDto) {
         ChickenHouse chickenHouse = ChickenHouseMapper.INSTANCE.mapToChickenHouse(chickenHouseDto);
-        //TODO
-        //mapowanie nie działa?
-        chickenHouse.setUser(UserMapper.INSTANCE.mapTo(chickenHouseDto.getUserDto()));
         chickenHouseRepository.save(chickenHouse);
     }
 }

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ChickenHouseRepository extends JpaRepository<ChickenHouse, Long> {
-    List<ChickenHouse> findAllByUserUuid(String userUUID);
+    List<ChickenHouse> findAllByUserEmail(String email);
 }

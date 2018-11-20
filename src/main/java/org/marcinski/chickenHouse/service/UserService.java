@@ -9,10 +9,7 @@ import org.marcinski.chickenHouse.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -34,9 +31,6 @@ public class UserService {
         UserDto userDto = null;
         if (userByEmail.isPresent()) {
             userDto = UserMapper.INSTANCE.mapTo(userByEmail.get());
-            //TODO
-            //nie działa mapowanie?
-            userDto.setUuid(UUID.fromString(userByEmail.get().getUuid()));
         }
         return Optional.ofNullable(userDto);
     }
@@ -51,26 +45,13 @@ public class UserService {
         }
     }
 
-    public Optional<UserDto> findUserByUUID(String userUUID) {
-        Optional<User> userById = userRepository.findByUuid(userUUID);
-        UserDto userDto = null;
-        if (userById.isPresent()){
-            userDto = UserMapper.INSTANCE.mapTo(userById.get());
-        }
-        return Optional.ofNullable(userDto);
-    }
-
     private User createNewUser(UserDto userDto) {
         User user = UserMapper.INSTANCE.mapTo(userDto);
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActive(true);
-        UUID uuid = UUID.randomUUID();
-        user.setUuid(uuid.toString());
 
         Role userRole = roleRepository.findByRole("USER");
-        Set<Role> roles = new HashSet<>();
-        roles.add(userRole);
-        user.setRoles(roles);
+        user.setRole(userRole);
         return user;
     }
 }

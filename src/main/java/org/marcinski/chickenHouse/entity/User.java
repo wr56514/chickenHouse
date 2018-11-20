@@ -31,15 +31,9 @@ public class User {
 
     private boolean active;
 
-    private String uuid;
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     private Set<ChickenHouse> chickenHouses;

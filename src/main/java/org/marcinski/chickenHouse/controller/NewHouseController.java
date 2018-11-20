@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -38,24 +37,18 @@ public class NewHouseController {
     @PostMapping("/new_house")
     public ModelAndView addNewHouse(@Valid ChickenHouseDto chickenHouseDto,
                                     BindingResult bindingResult,
-                                    HttpServletRequest request){
+                                    Principal principal){
         ModelAndView modelAndView = new ModelAndView();
 
-        Cookie[] cookies = request.getCookies();
-        String userUUID = null;
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("user")){
-                userUUID = cookie.getValue();
-            }
-        }
+        String email = principal.getName();
 
-        Optional<UserDto> userById = userService.findUserByUUID(userUUID);
+        Optional<UserDto> userByEmail = userService.findUserByEmail(email);
         if (bindingResult.hasErrors()){
             modelAndView.setViewName("new_house");
         }
         else {
-            if (userById.isPresent()) {
-                chickenHouseDto.setUserDto(userById.get());
+            if (userByEmail.isPresent()) {
+                chickenHouseDto.setUserDto(userByEmail.get());
                 chickenHouseService.saveChickenHouse(chickenHouseDto);
                 modelAndView.addObject("chickenHouseDto", new ChickenHouseDto());
             }

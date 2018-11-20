@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
-import java.util.UUID;
 
 @Data
 public class UserDto {
@@ -24,11 +23,9 @@ public class UserDto {
     @NotEmpty(message ="Wpisz swoje imię!")
     private String name;
 
-    private UUID uuid;
-
     private boolean active;
 
-    private Set<RoleDto> roleDtos;
+    private RoleDto roleDto;
 
     private Set<ChickenHouseDto> chickenHouseDtos;
 }
