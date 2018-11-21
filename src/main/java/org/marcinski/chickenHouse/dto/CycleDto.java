@@ -1,9 +1,9 @@
 package org.marcinski.chickenHouse.dto;
 
 import lombok.Data;
-import org.marcinski.chickenHouse.entity.Day;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -12,10 +12,17 @@ public class CycleDto {
 
     private Long id;
 
-    @NotEmpty(message = "Please provide number of chickens!")
+    @NotNull(message = "Please provide number of chickens!")
     private int numberOfChickens;
 
-    @NotEmpty(message = "Please provide a start day!")
+    @NotNull(message = "Please provide a start day!")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDay;
-    private Set<DayDto> days;
+
+    private String hybrid;
+    private String hatchery;
+
+    private Set<DayDto> daysDto;
+
+    private ChickenHouseDto chickenHouseDto;
 }

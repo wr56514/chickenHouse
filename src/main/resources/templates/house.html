@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:text="${house.getName()}"></title>
+
+    <th:block th:include="partials/scripts_css" />
+</head>
+
+<body>
+
+<div class="container">
+
+    <th:block th:include="partials/navbar" />
+
+    <br>
+    <div>
+        <h5 th:text="'Nazwa kurnika: ' + ${house.getName()}"></h5>
+    </div>
+
+    <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Utwórz nowy rzut
+        </a>
+
+        <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
+                th:object="${cycleDto}" method="post">
+            <div class="form-group">
+                <label for="startDay">Data wstawienia</label>
+                <input type="date" th:value="${date}" th:field="*{startDay}" class="form-control" id="startDay">
+            </div>
+            <div class="form-group">
+                <label for="numberOfChickens">Ilość kurczaków</label>
+                <input type="number" th:field="*{numberOfChickens}" class="form-control" id="numberOfChickens">
+            </div>
+            <div class="form-group">
+                <label for="hybrid">Hybryd</label>
+                <input type="text" th:field="*{hybrid}" class="form-control" id="hybrid">
+            </div>
+            <div class="form-group">
+                <label for="hatchery">Wylęgarnia</label>
+                <input type="text" th:field="*{hatchery}" class="form-control" id="hatchery">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Utwórz</button>
+        </form>
+    </div>
+
+    <div th:if="${cyclesDto.size()!=0}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Data wstawienia</th>
+                <th scope="col">Ilość kurczaków</th>
+                <th scope="col">Wylęgarnia</th>
+                <th scope="col">Hybryd</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${cyclesDto}">
+                <th scope="row" th:text="${c.getStartDay()}"></th>
+                <th scope="row" th:text="${c.getNumberOfChickens()}"></th>
+                <th scope="row" th:text="${c.getHatchery()}"></th>
+                <th scope="row" th:text="${c.getHybrid()}"></th>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div th:if="${cyclesDto.size() == 0}">
+        <h5>
+            Nie posiadasz jeszcze żadnych rzutów w bazie dla tego kurnika.
+        </h5>
+    </div>
+
+</div>
+
+</body>
+</html>

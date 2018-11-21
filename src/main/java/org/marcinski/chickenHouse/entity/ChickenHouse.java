@@ -25,8 +25,7 @@ public class ChickenHouse {
     @Column(name = "area")
     private int areaOfHouse;
 
-    @OneToMany
-    @JoinColumn(name = "house_id")
+    @OneToMany(mappedBy = "chickenHouse")
     private Set<Cycle> cycles;
 
     @ManyToOne

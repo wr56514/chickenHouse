@@ -1,9 +1,10 @@
 package org.marcinski.chickenHouse.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -17,15 +18,23 @@ public class Cycle {
     @Column(name = "cycle_id")
     private Long id;
 
-    @NotEmpty(message = "Please provide number of chickens!")
+    @NotNull(message = "Please provide number of chickens!")
     @Column(name = "number_of_chickens")
     private int numberOfChickens;
 
-    @NotEmpty(message = "Please provide a start day!")
+    @NotNull(message = "Please provide a start day!")
     @Column(name = "start_day")
     private LocalDate startDay;
+
+    private String hybrid;
+    private String hatchery;
 
     @OneToMany
     @JoinColumn(name = "cycle_id")
     private Set<Day> days;
+
+    @ManyToOne
+    @JoinColumn(name = "house_id")
+    @ToString.Exclude
+    private ChickenHouse chickenHouse;
 }

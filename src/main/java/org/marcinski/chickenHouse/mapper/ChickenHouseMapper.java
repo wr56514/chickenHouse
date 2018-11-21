@@ -12,8 +12,8 @@ public interface ChickenHouseMapper {
     ChickenHouseMapper INSTANCE = Mappers.getMapper(ChickenHouseMapper.class);
 
     @Mapping(source = "userDto", target = "user")
-    ChickenHouse mapToChickenHouse(ChickenHouseDto chickenHouseDto);
+    ChickenHouse mapTo(ChickenHouseDto chickenHouseDto);
 
     @Mapping(source = "user", target = "userDto")
-    ChickenHouseDto mapToChickenHouseDto(ChickenHouse chickenHouse);
+    ChickenHouseDto mapTo(ChickenHouse chickenHouse);
 }

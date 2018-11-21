@@ -12,32 +12,37 @@
 
 <div class="container">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" href="#" th:href="home" methods="GET">Lista kurników</a>
-            <a class="nav-item nav-link" href="#" th:href="new_house" methods="GET">Dodanie nowego kurnika</a>
-        </div>
-    </div>
-    <div>
-        <a href="#" th:href="@{/logout}" methods="GET">Wyloguj</a>
-    </div>
-</nav>
+    <th:block th:include="partials/navbar" />
 
     <h1 th:utext="${greeting}"></h1>
     <br>
-    <ul class="list-group">
-        <li class="list-group-item active">Lista kurników</li>
-        <li class="list-group-item" th:each="house : ${houses}"
-            th:text="${house.getName()}"></li>
-    </ul>
 
+    <div th:if="${houses.size()!=0}">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Nazwa</th>
+                    <th scope="col">Pole powierzchni</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="h : ${houses}">
+                    <th scope="row">
+                        <a th:href="@{'/home/' + ${h.getId()}}" th:text="${h.getName()}"></a>
+                    </th>
+                    <th scope="row" th:text="${h.getAreaOfHouse()}"></th>
+                </tr>
+                </tbody>
+            </table>
+
+    </div>
+
+    <div th:if="${houses.size()==0}">
+        <h5>
+            Nie posiadasz jeszcze żadnych kurników w bazie. Aby dodać przejdź do tej
+            <a th:href="@{/new_house}" th:text="strony"></a>
+        </h5>
+    </div>
 </div>
 
 </body>
