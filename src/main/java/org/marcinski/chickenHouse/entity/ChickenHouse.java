@@ -1,6 +1,7 @@
 package org.marcinski.chickenHouse.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "chicken_house")
 @Data
+@EqualsAndHashCode(exclude = "cycles")
 public class ChickenHouse {
 
     @Id
@@ -25,7 +27,7 @@ public class ChickenHouse {
     @Column(name = "area")
     private int areaOfHouse;
 
-    @OneToMany(mappedBy = "chickenHouse")
+    @OneToMany(mappedBy = "chickenHouse", cascade = CascadeType.REMOVE)
     private Set<Cycle> cycles;
 
     @ManyToOne

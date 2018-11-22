@@ -15,32 +15,85 @@
     <th:block th:include="partials/navbar" />
 
     <h1 th:utext="${greeting}"></h1>
+
+    <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="newDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Utwórz nowy kurnik
+        </a>
+        <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{home/new_house}"
+              th:object="${chickenHouseDto}" method="post">
+            <div class="form-group">
+                <label for="chickenHouseName">Nazwa kurnika</label>
+                <input type="text"  th:field="*{name}" class="form-control" id="chickenHouseName">
+            </div>
+            <div class="form-group">
+                <label for="chickenHouseArea">Pole powierzchni</label>
+                <input type="number" th:field="*{areaOfHouse}" class="form-control" id="chickenHouseArea">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Utwórz</button>
+        </form>
+    </div>
+
     <br>
 
-    <div th:if="${houses.size()!=0}">
+    <div th:if="${chickenHouseDtos.size()!=0}">
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col">Nazwa</th>
                     <th scope="col">Pole powierzchni</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="h : ${houses}">
+                <tr th:each="house : ${chickenHouseDtos}">
                     <th scope="row">
-                        <a th:href="@{'/home/' + ${h.getId()}}" th:text="${h.getName()}"></a>
+                        <a th:href="@{'/home/' + ${house.getId()}}" th:text="${house.getName()}"></a>
                     </th>
-                    <th scope="row" th:text="${h.getAreaOfHouse()}"></th>
+                    <th scope="row" th:text="${house.getAreaOfHouse()}"></th>
+                    <th scope="row">
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="editDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Edycja
+                            </a>
+                            <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
+                                  th:object="${chickenHouseDto}" th:method="put">
+                                <div class="form-group">
+                                    <label for="chickenHouseName">Nazwa kurnika</label>
+                                    <input type="text"  th:field="*{name}" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="chickenHouseArea">Pole powierzchni</label>
+                                    <input type="number" th:field="*{areaOfHouse}" class="form-control">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Edytuj</button>
+                            </form>
+                        </div>
+                    </th>
+                    <th class="row">
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="deleteDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Usuń
+                            </a>
+                            <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
+                                  th:object="${chickenHouseDto}" th:method="delete">
+
+                                <button type="submit" class="btn btn-primary">Usuń</button>
+                            </form>
+                        </div>
+                    </th>
                 </tr>
                 </tbody>
             </table>
 
     </div>
 
-    <div th:if="${houses.size()==0}">
+    <div th:if="${chickenHouseDtos.size()==0}">
         <h5>
-            Nie posiadasz jeszcze żadnych kurników w bazie. Aby dodać przejdź do tej
-            <a th:href="@{/new_house}" th:text="strony"></a>
+            Nie posiadasz jeszcze żadnych kurników w bazie.
         </h5>
     </div>
 </div>

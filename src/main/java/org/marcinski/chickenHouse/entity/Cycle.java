@@ -1,6 +1,7 @@
 package org.marcinski.chickenHouse.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "cycle")
 @Data
+@EqualsAndHashCode(exclude = "chickenHouse")
 public class Cycle {
 
     @Id
@@ -33,7 +35,7 @@ public class Cycle {
     @JoinColumn(name = "cycle_id")
     private Set<Day> days;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "house_id")
     @ToString.Exclude
     private ChickenHouse chickenHouse;

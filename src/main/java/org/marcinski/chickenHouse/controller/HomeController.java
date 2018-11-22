@@ -26,6 +26,7 @@ public class HomeController {
     @GetMapping("/home")
     public ModelAndView home(Principal principal){
         ModelAndView modelAndView = new ModelAndView();
+        ChickenHouseDto chickenHouseDto = new ChickenHouseDto();
 
         String email = principal.getName();
         Optional<UserDto> userByEmail = userService.findUserByEmail(email);
@@ -36,9 +37,10 @@ public class HomeController {
             modelAndView.addObject("greeting", "Cześć " + userDto.getName());
         }
 
-        List<ChickenHouseDto> chickenHouseDto = chickenHouseService.findChickenHousesDtoByUserEmail(email);
+        List<ChickenHouseDto> chickenHouseDtos = chickenHouseService.findChickenHousesDtoByUserEmail(email);
 
-        modelAndView.addObject("houses", chickenHouseDto);
+        modelAndView.addObject("chickenHouseDtos", chickenHouseDtos);
+        modelAndView.addObject("chickenHouseDto", chickenHouseDto);
         modelAndView.setViewName("home");
         return modelAndView;
     }

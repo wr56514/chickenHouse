@@ -39,4 +39,8 @@ public class ChickenHouseService {
         }
         return Optional.ofNullable(houseDto);
     }
+
+    public void deteleHouse(Long id) {
+        chickenHouseRepository.deleteById(id);
+    }
 }
