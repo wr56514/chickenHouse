@@ -16,36 +16,72 @@
 
     <br>
     <div>
-        <h5 th:text="'Nazwa kurnika: ' + ${house.getName()}"></h5>
+        <h5 th:text="'Nazwa kurnika: ' + ${house.getName()} + ', pole powierzchni kurnika: ' + ${house.getAreaOfHouse()}
+                    + 'm^2'"></h5>
     </div>
 
-    <div class="dropdown">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Utwórz nowy rzut
-        </a>
+    <div>
+        <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Utwórz nowy rzut
+            </a>
 
-        <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
-                th:object="${cycleDto}" method="post">
-            <div class="form-group">
-                <label for="startDay">Data wstawienia</label>
-                <input type="date" th:value="${date}" th:field="*{startDay}" class="form-control" id="startDay">
-            </div>
-            <div class="form-group">
-                <label for="numberOfChickens">Ilość kurczaków</label>
-                <input type="number" th:field="*{numberOfChickens}" class="form-control" id="numberOfChickens">
-            </div>
-            <div class="form-group">
-                <label for="hybrid">Hybryd</label>
-                <input type="text" th:field="*{hybrid}" class="form-control" id="hybrid">
-            </div>
-            <div class="form-group">
-                <label for="hatchery">Wylęgarnia</label>
-                <input type="text" th:field="*{hatchery}" class="form-control" id="hatchery">
+            <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/cycle/' + ${house.getId()}}"
+                  th:object="${cycleDto}" method="post">
+                <div class="form-group">
+                    <label for="startDay">Data wstawienia</label>
+                    <input type="date" th:value="${date}" th:field="*{startDay}" class="form-control" id="startDay">
+                </div>
+                <div class="form-group">
+                    <label for="numberOfChickens">Ilość kurczaków</label>
+                    <input type="number" th:field="*{numberOfChickens}" class="form-control" id="numberOfChickens">
+                </div>
+                <div class="form-group">
+                    <label for="hybrid">Hybryd</label>
+                    <input type="text" th:field="*{hybrid}" class="form-control" id="hybrid">
+                </div>
+                <div class="form-group">
+                    <label for="hatchery">Wylęgarnia</label>
+                    <input type="text" th:field="*{hatchery}" class="form-control" id="hatchery">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Utwórz</button>
+            </form>
+        </div>
+
+        <div>
+            <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="editHouseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Edycja danych kurnika
+                </a>
+                <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
+                      th:object="${chickenHouseDto}" th:method="put">
+                    <div class="form-group">
+                        <label for="chickenHouseName">Nazwa kurnika</label>
+                        <input type="text" th:field="*{name}"  th:value="${house.getName()}" class="form-control" id="chickenHouseName">
+                    </div>
+                    <div class="form-group">
+                        <label for="chickenHouseArea">Pole powierzchni</label>
+                        <input type="number" th:field="*{areaOfHouse}" class="form-control" id="chickenHouseArea">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Edytuj</button>
+                </form>
             </div>
 
-            <button type="submit" class="btn btn-primary">Utwórz</button>
-        </form>
+            <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="deleteDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Usuń kurnik
+                </a>
+                <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
+                      th:object="${chickenHouseDto}" th:method="delete">
+
+                    <button type="submit" class="btn btn-primary">Usuń</button>
+                </form>
+            </div>
+        </div>
     </div>
+
 
     <div th:if="${cyclesDto.size()!=0}">
         <table class="table table-striped">
@@ -55,14 +91,18 @@
                 <th scope="col">Ilość kurczaków</th>
                 <th scope="col">Wylęgarnia</th>
                 <th scope="col">Hybryd</th>
+                <th scope="col">Zakończony</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="c : ${cyclesDto}">
-                <th scope="row" th:text="${c.getStartDay()}"></th>
+                <th scope="row">
+                    <a th:href="@{'/home/cycle/' + ${c.getId()}}" th:text="${c.startDay}"></a>
+                </th>
                 <th scope="row" th:text="${c.getNumberOfChickens()}"></th>
                 <th scope="row" th:text="${c.getHatchery()}"></th>
                 <th scope="row" th:text="${c.getHybrid()}"></th>
+                <th scope="row" th:text="${c.isCompleted() == true} ? Tak : Nie"></th>
             </tr>
             </tbody>
         </table>

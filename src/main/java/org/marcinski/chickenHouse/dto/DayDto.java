@@ -1,14 +1,17 @@
 package org.marcinski.chickenHouse.dto;
 
+import lombok.Data;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
+@Data
 public class DayDto {
 
     private Long id;
 
-    @NotEmpty
+    @Min(0)
     private int dayNumber;
 
     @Nullable
@@ -19,4 +22,12 @@ public class DayDto {
 
     @Nullable
     private long waterCounter;
+
+    @Nullable
+    private double averageWeight;
+
+    @Nullable
+    private String comments;
+
+    private CycleDto cycleDto;
 }

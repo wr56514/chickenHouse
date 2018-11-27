@@ -42,48 +42,12 @@
                 <thead>
                 <tr>
                     <th scope="col">Nazwa</th>
-                    <th scope="col">Pole powierzchni</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="house : ${chickenHouseDtos}">
                     <th scope="row">
                         <a th:href="@{'/home/' + ${house.getId()}}" th:text="${house.getName()}"></a>
-                    </th>
-                    <th scope="row" th:text="${house.getAreaOfHouse()}"></th>
-                    <th scope="row">
-                        <div class="dropdown">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="editDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Edycja
-                            </a>
-                            <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
-                                  th:object="${chickenHouseDto}" th:method="put">
-                                <div class="form-group">
-                                    <label for="chickenHouseName">Nazwa kurnika</label>
-                                    <input type="text"  th:field="*{name}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="chickenHouseArea">Pole powierzchni</label>
-                                    <input type="number" th:field="*{areaOfHouse}" class="form-control">
-                                </div>
-
-                                <button type="submit" class="btn btn-primary">Edytuj</button>
-                            </form>
-                        </div>
-                    </th>
-                    <th class="row">
-                        <div class="dropdown">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="deleteDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Usuń
-                            </a>
-                            <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
-                                  th:object="${chickenHouseDto}" th:method="delete">
-
-                                <button type="submit" class="btn btn-primary">Usuń</button>
-                            </form>
-                        </div>
                     </th>
                 </tr>
                 </tbody>

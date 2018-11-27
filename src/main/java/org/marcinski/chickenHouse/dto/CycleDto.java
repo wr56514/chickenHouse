@@ -21,6 +21,7 @@ public class CycleDto {
 
     private String hybrid;
     private String hatchery;
+    private boolean completed;
 
     private Set<DayDto> daysDto;
 

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:text="'Rzut z dnia: ' + ${cycle.startDay}"></title>
+
+    <th:block th:include="partials/scripts_css" />
+</head>
+
+<body>
+
+<div class="container">
+
+    <th:block th:include="partials/navbar" />
+
+    <br>
+
+    <div>
+        <p th:text="'Dzień wstawienia: ' + ${cycle.getStartDay()}"></p>
+        <p th:text="'Hybryd: ' + ${cycle.getHybrid()}"></p>
+        <p th:text="'Wylęgarnia: ' + ${cycle.getHatchery()}"></p>
+        <p th:text="'Początkowa liczba stada: ' + ${cycle.getNumberOfChickens()}"></p>
+        <p th:text="'Aktualna liczba stada: ' + ${actualNumberOfChicken}"></p>
+    </div>
+
+    <div class="dropdown" th:if="${!cycle.isCompleted()}">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="editDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Edycja
+            <!--TODO unikalna data dla każdego pola edycji-->
+        </a>
+        <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/cycle/' + ${cycle.getId()}}"
+              th:object="${cycle}" th:method="put">
+            <div class="form-group">
+                <label for="startDay">Data wstawienia</label>
+                <input type="date" th:field="*{startDay}" class="form-control" id="startDay">
+            </div>
+            <div class="form-group">
+                <label for="numberOfChickens">Liczba wstawionych kurczaków</label>
+                <input type="text"  th:field="*{numberOfChickens}" class="form-control" id="numberOfChickens">
+            </div>
+            <div class="form-group">
+                <label for="hatchery">Wylęgarnia</label>
+                <input type="text"  th:field="*{hatchery}" class="form-control" id="hatchery">
+            </div>
+            <div class="form-group">
+                <label for="hybrid">Hybryd</label>
+                <input type="text"  th:field="*{hybrid}" class="form-control" id="hybrid">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Edytuj</button>
+        </form>
+    </div>
+
+    <div class="dropdown" th:if="${!cycle.isCompleted()}">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="deleteDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Zakończ
+        </a>
+        <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/cycle/complete/' + ${cycle.getId()}}"
+              th:object="${cycle}" th:method="put">
+
+            <button type="submit" class="btn btn-primary">Zakończ</button>
+        </form>
+    </div>
+
+    <div>
+        <form autocomplete="off" th:action="@{'/home/cycle/day/' + ${cycle.getId()}}"
+                th:object="${dayDto}" th:method="post" th:if="${!cycle.isCompleted()}">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label>Dzień tuczu</label>
+                    <!--TODO zmiana na pole statyczne, albo usunięcie-->
+                    <input type="number" th:field="*{dayNumber}" th:value="${dayDto.getDayNumber()}">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="naturalDowns">Upadki</label>
+                    <input type="number" th:field="*{naturalDowns}" class="form-control" id="naturalDowns" min="0">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="selectionDowns">Selekcja</label>
+                    <input type="number" th:field="*{selectionDowns}" class="form-control" id="selectionDowns" min="0">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="waterCounter">Stan licznika wody</label>
+                    <input type="number" th:field="*{waterCounter}" class="form-control" id="waterCounter" min="0">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="averageWeight">Średnia waga kurczaka</label>
+                    <input type="number" th:field="*{averageWeight}" class="form-control" id="averageWeight" min="0">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="comments">Uwagi</label>
+                    <textarea id="comments" th:field="*{comments}"></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Zatwierdź</button>
+        </form>
+    </div>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Dzień tuczu</th>
+                <th scope="col">Upadki</th>
+                <th scope="col">Selekcja</th>
+                <th scope="col">Stan licznika wody</th>
+                <th scope="col">Średnia waga kurczaka</th>
+                <th scope="col">Uwagi</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="d : ${days}">
+                <th scope="row" th:text="${d.getDayNumber()}"></th>
+                <th scope="row" th:text="${d.getNaturalDowns()}"></th>
+                <th scope="row" th:text="${d.getSelectionDowns()}"></th>
+                <th scope="row" th:text="${d.getWaterCounter()}"></th>
+                <th scope="row" th:text="${d.getAverageWeight()}"></th>
+                <th scope="row" th:text="${d.getComments()}"></th>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

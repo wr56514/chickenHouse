@@ -30,12 +30,12 @@ public class Cycle {
 
     private String hybrid;
     private String hatchery;
+    private boolean completed;
 
-    @OneToMany
-    @JoinColumn(name = "cycle_id")
+    @OneToMany(mappedBy = "cycle", cascade = CascadeType.REMOVE)
     private Set<Day> days;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "house_id")
     @ToString.Exclude
     private ChickenHouse chickenHouse;

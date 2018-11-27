@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,5 +38,42 @@ public class CycleService {
         return cycles.stream()
                 .map(CycleMapper.INSTANCE::mapTo)
                 .collect(Collectors.toList());
+    }
+
+    public long updateCycle(CycleDto cycleDto, Long id) {
+        Optional<Cycle> byId = cycleRepository.findById(id);
+        long chickenHouseId = 0;
+        if (byId.isPresent()){
+            Cycle cycleToEdit = byId.get();
+            cycleToEdit.setStartDay(cycleDto.getStartDay());
+            cycleToEdit.setNumberOfChickens(cycleDto.getNumberOfChickens());
+            cycleToEdit.setHatchery(cycleDto.getHatchery());
+            cycleToEdit.setHybrid(cycleDto.getHybrid());
+            cycleRepository.save(cycleToEdit);
+            chickenHouseId = cycleToEdit.getChickenHouse().getId();
+        }
+        return chickenHouseId;
+    }
+
+    public long completeCycle(Long id) {
+        Optional<Cycle> byId = cycleRepository.findById(id);
+        long chickenHouseId = 0;
+        if (byId.isPresent()){
+            Cycle cycleToEdit = byId.get();
+            cycleToEdit.setCompleted(true);
+            cycleRepository.save(cycleToEdit);
+            chickenHouseId = cycleToEdit.getChickenHouse().getId();
+        }
+        return chickenHouseId;
+    }
+
+    public Optional<CycleDto> getById(Long id) {
+        Optional<Cycle> byId = cycleRepository.findById(id);
+        CycleDto cycleDto = null;
+        if (byId.isPresent()){
+            Cycle cycle = byId.get();
+            cycleDto = CycleMapper.INSTANCE.mapTo(cycle);
+        }
+        return Optional.ofNullable(cycleDto);
     }
 }

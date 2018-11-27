@@ -36,6 +36,9 @@ public class HouseController {
     public ModelAndView house(@PathVariable Long id, Principal principal){
         ModelAndView modelAndView = new ModelAndView();
         CycleDto cycleDto = new CycleDto();
+        ChickenHouseDto chickenHouseDto = new ChickenHouseDto();
+        LocalDate now = LocalDate.now();
+        cycleDto.setStartDay(now);
 
         Optional<ChickenHouseDto> chickenHouseById = chickenHouseService.getChickenHouseById(id);
         if (chickenHouseById.isPresent()) {
@@ -43,19 +46,21 @@ public class HouseController {
             String userEmailFromPrincipal = principal.getName();
 
             if (userEmailFromHouse.equals(userEmailFromPrincipal)) {
+                chickenHouseDto.setName(chickenHouseById.get().getName());
+                chickenHouseDto.setAreaOfHouse(chickenHouseById.get().getAreaOfHouse());
                 List<CycleDto> cycleDtos = cycleService.getAllByChickenHouseId(id);
+
                 modelAndView.addObject("house", chickenHouseById.get());
-                //TODO nie działa dodawanie daty
-                modelAndView.addObject("date", LocalDate.now());
+                modelAndView.addObject("date", now);
                 modelAndView.addObject("cycleDto", cycleDto);
                 modelAndView.addObject("cyclesDto", cycleDtos);
+                modelAndView.addObject("actualChickenHouse", chickenHouseDto);
                 modelAndView.setViewName("house");
-            } else {
-                modelAndView.setViewName("redirect:/home");
             }
         }else {
             modelAndView.setViewName("redirect:/home");
         }
+        modelAndView.addObject("chickenHouseDto", chickenHouseDto);
 
         return modelAndView;
     }
@@ -95,10 +100,8 @@ public class HouseController {
             house.setName(chickenHouseDto.getName());
             house.setAreaOfHouse(chickenHouseDto.getAreaOfHouse());
             chickenHouseService.saveChickenHouse(house);
-            modelAndView.setViewName("redirect:/home/");
-        }else {
-            modelAndView.setViewName("redirect:/home/");
         }
+        modelAndView.setViewName("redirect:/home/" + chickenHouseDto.getId());
         return modelAndView;
     }
 
