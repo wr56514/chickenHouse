@@ -15,14 +15,15 @@
     <th:block th:include="partials/navbar" />
 
     <br>
+
     <div>
         <h5 th:text="'Nazwa kurnika: ' + ${house.getName()} + ', pole powierzchni kurnika: ' + ${house.getAreaOfHouse()}
                     + 'm^2'"></h5>
     </div>
 
-    <div>
-        <div class="dropdown">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="row">
+        <div class="col-md-3 dropdown">
+            <a class="btn btn-secondary dropdown-toggle col-12" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Utwórz nowy rzut
             </a>
 
@@ -49,36 +50,34 @@
             </form>
         </div>
 
-        <div>
-            <div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="editHouseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Edycja danych kurnika
-                </a>
-                <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
-                      th:object="${chickenHouseDto}" th:method="put">
-                    <div class="form-group">
-                        <label for="chickenHouseName">Nazwa kurnika</label>
-                        <input type="text" th:field="*{name}"  th:value="${house.getName()}" class="form-control" id="chickenHouseName">
-                    </div>
-                    <div class="form-group">
-                        <label for="chickenHouseArea">Pole powierzchni</label>
-                        <input type="number" th:field="*{areaOfHouse}" class="form-control" id="chickenHouseArea">
-                    </div>
+        <div class="offset-md-3 col-md-4 dropdown">
+            <a class="btn btn-secondary dropdown-toggle col-12" href="#" role="button" id="editHouseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Edycja danych kurnika
+            </a>
+            <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
+                  th:object="${chickenHouseDto}" th:method="put">
+                <div class="form-group">
+                    <label for="chickenHouseName">Nazwa kurnika</label>
+                    <input type="text" th:field="*{name}"  th:value="${house.getName()}" class="form-control" id="chickenHouseName">
+                </div>
+                <div class="form-group">
+                    <label for="chickenHouseArea">Pole powierzchni</label>
+                    <input type="number" th:field="*{areaOfHouse}" class="form-control" id="chickenHouseArea">
+                </div>
 
-                    <button type="submit" class="btn btn-primary">Edytuj</button>
-                </form>
-            </div>
+                <button type="submit" class="btn btn-primary">Edytuj</button>
+            </form>
+        </div>
 
-            <div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="deleteDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Usuń kurnik
-                </a>
-                <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
-                      th:object="${chickenHouseDto}" th:method="delete">
+        <div class="col-sm-3 dropdown  ">
+            <a class="btn btn-secondary dropdown-toggle col-12" href="#" role="button" id="deleteDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Usuń kurnik
+            </a>
+            <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
+                  th:object="${chickenHouseDto}" th:method="delete">
 
-                    <button type="submit" class="btn btn-primary">Usuń</button>
-                </form>
-            </div>
+                <button type="submit" class="btn btn-primary">Usuń</button>
+            </form>
         </div>
     </div>
 

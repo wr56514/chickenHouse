@@ -30,4 +30,8 @@ public class DayDto {
     private String comments;
 
     private CycleDto cycleDto;
+
+    public double getAllDowns(){
+        return naturalDowns + selectionDowns;
+    }
 }
