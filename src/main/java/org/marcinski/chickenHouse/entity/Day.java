@@ -36,7 +36,7 @@ public class Day {
     private long waterCounter;
 
     @Nullable
-    private double averageWeight;
+    private int averageWeight;
 
     @Nullable
     private String comments;
