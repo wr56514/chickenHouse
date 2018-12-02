@@ -33,8 +33,8 @@ public class CycleService {
         cycleRepository.save(cycle);
     }
 
-    public List<CycleDto> getAllByChickenHouseId(Long id) {
-        List<Cycle> cycles = cycleRepository.findAllByChickenHouseId(id);
+    public List<CycleDto> getAllByChickenHouseIdOrderedByStartDayDesc(Long id) {
+        List<Cycle> cycles = cycleRepository.findAllByChickenHouseIdOrderByStartDayDesc(id);
         return cycles.stream()
                 .map(CycleMapper.INSTANCE::mapTo)
                 .collect(Collectors.toList());

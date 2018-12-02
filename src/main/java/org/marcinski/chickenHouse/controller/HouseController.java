@@ -48,7 +48,7 @@ public class HouseController {
             if (userEmailFromHouse.equals(userEmailFromPrincipal)) {
                 chickenHouseDto.setName(chickenHouseById.get().getName());
                 chickenHouseDto.setAreaOfHouse(chickenHouseById.get().getAreaOfHouse());
-                List<CycleDto> cycleDtos = cycleService.getAllByChickenHouseId(id);
+                List<CycleDto> cycleDtos = cycleService.getAllByChickenHouseIdOrderedByStartDayDesc(id);
 
                 modelAndView.addObject("house", chickenHouseById.get());
                 modelAndView.addObject("date", now);

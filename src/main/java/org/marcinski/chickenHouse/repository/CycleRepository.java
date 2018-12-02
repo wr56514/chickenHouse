@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CycleRepository extends JpaRepository<Cycle, Long> {
-    List<Cycle> findAllByChickenHouseId(Long id);
+    List<Cycle> findAllByChickenHouseIdOrderByStartDayDesc(Long id);
 }
