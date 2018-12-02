@@ -12,5 +12,10 @@ public interface DayMapper {
     DayMapper INSTANCE = Mappers.getMapper(DayMapper.class);
 
     @Mapping(source = "cycleDto", target = "cycle")
+    @Mapping(source = "forageDto", target = "forage")
     Day mapTo(DayDto dayDto);
+
+    @Mapping(source = "cycle", target = "cycleDto")
+    @Mapping(source = "forage", target = "forageDto")
+    DayDto mapTo(Day day);
 }

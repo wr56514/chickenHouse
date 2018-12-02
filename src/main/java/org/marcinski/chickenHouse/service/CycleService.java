@@ -2,14 +2,18 @@ package org.marcinski.chickenHouse.service;
 
 import org.marcinski.chickenHouse.dto.ChickenHouseDto;
 import org.marcinski.chickenHouse.dto.CycleDto;
+import org.marcinski.chickenHouse.dto.ForageDto;
 import org.marcinski.chickenHouse.entity.Cycle;
+import org.marcinski.chickenHouse.entity.Day;
 import org.marcinski.chickenHouse.mapper.CycleMapper;
+import org.marcinski.chickenHouse.mapper.ForageMapper;
 import org.marcinski.chickenHouse.repository.CycleRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

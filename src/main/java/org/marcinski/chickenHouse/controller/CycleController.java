@@ -2,6 +2,7 @@ package org.marcinski.chickenHouse.controller;
 
 import org.marcinski.chickenHouse.dto.CycleDto;
 import org.marcinski.chickenHouse.dto.DayDto;
+import org.marcinski.chickenHouse.dto.ForageDto;
 import org.marcinski.chickenHouse.service.CycleService;
 import org.marcinski.chickenHouse.service.DayService;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +63,7 @@ public class CycleController {
         if (cycleDtoById.isPresent()){
             CycleDto cycleDto = cycleDtoById.get();
             DayDto dayDto = new DayDto();
-            //TODO
+            ForageDto forageDto = new ForageDto();
             List<DayDto> dayDtos = dayService.getAllDaysByCycleIdSortedByDayNumber(id);
             int actualDayNumber = 1;
             if (dayDtos.size() > 0){
@@ -70,15 +72,21 @@ public class CycleController {
             dayDto.setDayNumber(actualDayNumber);
 
             int actualNumberOfChicken = cycleDto.getNumberOfChickens();
+            List<ForageDto> forages = new ArrayList<>();
             for (DayDto dto : dayDtos) {
                 int allDowns = dto.getNaturalDowns() + dto.getSelectionDowns();
                 actualNumberOfChicken -= allDowns;
+                if (dayDto.getForageDto() != null){
+                    forages.add(dto.getForageDto());
+                }
             }
 
             modelAndView.addObject("cycle", cycleDto);
             modelAndView.addObject("dayDto", dayDto);
             modelAndView.addObject("actualNumberOfChicken", actualNumberOfChicken);
             modelAndView.addObject("days", dayDtos);
+            modelAndView.addObject("forageDto", forageDto);
+            modelAndView.addObject("forages", forages);
         }
         modelAndView.setViewName("cycle");
 

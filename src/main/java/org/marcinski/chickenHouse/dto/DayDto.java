@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Data
 public class DayDto {
@@ -30,6 +31,10 @@ public class DayDto {
     private String comments;
 
     private CycleDto cycleDto;
+
+    private ForageDto forageDto;
+
+    private Set<MedicineDto> medicineDtos;
 
     public double getAllDowns(){
         return naturalDowns + selectionDowns;

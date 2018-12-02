@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Entity
 @Table(name = "day_of_cycle")
@@ -45,4 +46,11 @@ public class Day {
     @JoinColumn(name = "cycle_id")
     @ToString.Exclude
     private Cycle cycle;
+
+    @OneToOne
+    @JoinColumn(name = "forage_id")
+    private Forage forage;
+
+    @OneToMany(mappedBy = "day", fetch = FetchType.EAGER)
+    private Set<Medicine> medicines;
 }
