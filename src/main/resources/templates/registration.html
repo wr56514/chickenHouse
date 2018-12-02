@@ -9,13 +9,11 @@
 <body>
 
 <div class="container">
-    <form th:action="@{/login}" method="get">
-        <button class="btn btn-md btn-warning btn-block" type="Submit">Strona logowania</button>
-    </form>
+    <th:block th:include="partials/navbar"/>
 
     <div class="row">
         <div class="col-md-6 col-md-offset-3" style="margin:auto">
-            <form autocomplete="off" action="#" th:action="@{/registration}"
+            <form autocomplete="off" th:action="@{/registration}"
                   th:object="${userDto}" method="post" class="form-horizontal"
                   role="form">
                 <h2>Formularz rejestracyjny</h2>

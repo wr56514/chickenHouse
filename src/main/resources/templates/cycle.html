@@ -12,7 +12,7 @@
 
 <div class="container">
 
-    <th:block th:include="partials/navbar" />
+    <th:block th:include="partials/navbar"/>
 
     <br>
 
@@ -25,8 +25,8 @@
     </div>
 
     <div class="row">
-        <div class="offset-md-6 col-md-3 dropdown" th:if="${!cycle.isCompleted()}">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="editDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="col-md-6 dropdown" th:if="${!cycle.isCompleted()}">
+            <a class="btn btn-secondary dropdown-toggle col-md-12" role="button" id="editDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Edycja
             </a>
             <form class="dropdown-menu p-2" autocomplete="off" about="#" th:action="@{'/home/cycle/' + ${cycle.getId()}}"
@@ -52,8 +52,10 @@
             </form>
         </div>
 
-        <div class="col-md-2 dropdown" th:if="${!cycle.isCompleted()}">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="deleteDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <br>
+
+        <div class="col-md-6 dropdown" th:if="${!cycle.isCompleted()}">
+            <a class="btn btn-secondary dropdown-toggle col-md-12" role="button" id="deleteDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Zakończ
             </a>
             <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/cycle/complete/' + ${cycle.getId()}}"
@@ -89,7 +91,7 @@
                 </div>
                 <div class="form-group col-md-2">
                     <label for="averageWeight">Średnia waga kurczaka</label>
-                    <input type="number" step="0.1" th:field="*{averageWeight}" class="form-control" id="averageWeight" min="0">
+                    <input type="number" th:field="*{averageWeight}" class="form-control" id="averageWeight" min="0">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="comments">Uwagi</label>
@@ -101,7 +103,7 @@
     </div>
 
     <div>
-        <table class="table table-striped">
+        <table class="col-md-12 table table-striped">
             <thead>
             <tr>
                 <th scope="col">Dzień tuczu</th>
@@ -110,7 +112,7 @@
                 <th scope="col">Razem</th>
                 <th scope="col">Stan licznika wody</th>
                 <th scope="col">Dzienne zużycie wody</th>
-                <th scope="col">Średnia waga kurczaka</th>
+                <th scope="col">Średnia waga kurczaka (gram)</th>
                 <th scope="col">WŚD</th>
                 <th scope="col">Uwagi</th>
             </tr>
@@ -122,7 +124,9 @@
                 <th scope="row" th:text="${d.getSelectionDowns()}"></th>
                 <th scope="row" th:text="${(d.getNaturalDowns() + d.getSelectionDowns())}"></th>
                 <th scope="row" th:text="${d.getWaterCounter()}"></th>
-                <th scope="row" th:text="${i.index > 0 ? days[(i.index - 1)].getWaterCounter() - days[i.index].getWaterCounter() : 0}"></th>
+                <th scope="row" th:text="${i.index > 0 &&
+                                                        days[(i.index - 1)].getWaterCounter() > days[i.index].getWaterCounter()
+                                                        ? days[(i.index - 1)].getWaterCounter() - days[i.index].getWaterCounter() : 0}"></th>
                 <th scope="row" th:text="${d.getAverageWeight()}"></th>
                 <th scope="row" th:text="${#numbers.formatDecimal(d.getAllDowns() * 100 / actualNumberOfChicken, 1, 3)}"></th>
                 <th scope="row" th:text="${d.getComments()}"></th>

@@ -22,8 +22,8 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3 dropdown">
-            <a class="btn btn-secondary dropdown-toggle col-12" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="col-md-4 dropdown">
+            <a class="btn btn-secondary dropdown-toggle col-md-12" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Utwórz nowy rzut
             </a>
 
@@ -50,8 +50,8 @@
             </form>
         </div>
 
-        <div class="offset-md-3 col-md-4 dropdown">
-            <a class="btn btn-secondary dropdown-toggle col-12" href="#" role="button" id="editHouseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="col-md-4 dropdown">
+            <a class="btn btn-secondary dropdown-toggle col-md-12" role="button" id="editHouseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Edycja danych kurnika
             </a>
             <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
@@ -69,8 +69,8 @@
             </form>
         </div>
 
-        <div class="col-sm-3 dropdown  ">
-            <a class="btn btn-secondary dropdown-toggle col-12" href="#" role="button" id="deleteDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="col-md-4 dropdown">
+            <a class="btn btn-secondary dropdown-toggle col-12" role="button" id="deleteDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Usuń kurnik
             </a>
             <form class="dropdown-menu p-4" autocomplete="off" about="#" th:action="@{'/home/' + ${house.getId()}}"
