@@ -7,6 +7,7 @@ import org.marcinski.chickenHouse.service.ChickenHouseService;
 import org.marcinski.chickenHouse.service.CycleService;
 import org.marcinski.chickenHouse.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -62,41 +63,36 @@ public class HouseController {
     }
 
     @PostMapping("/new_house")
-    public ModelAndView addNewHouse(@Valid ChickenHouseDto chickenHouseDto,
+    public String addNewHouse(@Valid ChickenHouseDto chickenHouseDto,
                                     BindingResult bindingResult,
-                                    Principal principal){
-        ModelAndView modelAndView = new ModelAndView();
-
+                                    Principal principal,
+                                    Model model){
         String email = principal.getName();
 
         Optional<UserDto> userByEmail = userService.findUserByEmail(email);
         if (bindingResult.hasErrors()){
-            modelAndView.setViewName("redirect:/home");
+            return "redirect:/home";
         }
         else {
             if (userByEmail.isPresent()) {
                 chickenHouseDto.setUserDto(userByEmail.get());
                 chickenHouseService.saveChickenHouse(chickenHouseDto);
-                modelAndView.addObject("chickenHouseDto", new ChickenHouseDto());
+                model.addAttribute("chickenHouseDto", new ChickenHouseDto());
             }
         }
-
-        return new ModelAndView("redirect:/home");
+        return "redirect:/home";
     }
 
     @PutMapping("/{id}")
-    public ModelAndView editHouse(@Valid ChickenHouseDto chickenHouseDto,
+    public String editHouse(@Valid ChickenHouseDto chickenHouseDto,
                                   @PathVariable Long id){
-        ModelAndView modelAndView = new ModelAndView();
-
         ChickenHouseDto chickenHouseById = chickenHouseService.getChickenHouseById(id);
 
         chickenHouseById.setName(chickenHouseDto.getName());
         chickenHouseById.setAreaOfHouse(chickenHouseDto.getAreaOfHouse());
         chickenHouseService.saveChickenHouse(chickenHouseById);
 
-        modelAndView.setViewName("redirect:/home/" + chickenHouseDto.getId());
-        return modelAndView;
+        return "redirect:/home/" + chickenHouseDto.getId();
     }
 
     @DeleteMapping("/{id}")

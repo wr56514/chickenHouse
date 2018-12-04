@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -23,12 +22,9 @@ public class DayController {
     }
 
     @PostMapping("/{cycleId}")
-    public ModelAndView createDay(@Valid DayDto dayDto, @PathVariable Long cycleId){
-        ModelAndView modelAndView = new ModelAndView();
+    public String createDay(@Valid DayDto dayDto, @PathVariable Long cycleId){
         dayService.createDay(dayDto, cycleId);
-
-        modelAndView.setViewName("redirect:/home/cycle/" + cycleId);
-        return modelAndView;
+        return "redirect:/home/cycle/" + cycleId;
     }
 
     @PutMapping("/{dayId}")

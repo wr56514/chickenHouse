@@ -3,6 +3,7 @@ package org.marcinski.chickenHouse.controller;
 import org.marcinski.chickenHouse.dto.UserDto;
 import org.marcinski.chickenHouse.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,31 +22,25 @@ public class RegistrationController {
     }
 
     @GetMapping("/registration")
-    public ModelAndView registration(){
-        ModelAndView modelAndView = new ModelAndView();
+    public String registration(Model model){
         UserDto userDto = new UserDto();
-        modelAndView.addObject("userDto", userDto);
-        modelAndView.setViewName("registration");
-        return modelAndView;
+        model.addAttribute("userDto", userDto);
+        return "registration";
     }
 
     @PostMapping("/registration")
-    public ModelAndView createNewUser(@Valid UserDto userDto, BindingResult bindingResult){
+    public String createNewUser(@Valid UserDto userDto, BindingResult bindingResult, Model model){
         ModelAndView modelAndView = new ModelAndView();
         Optional<UserDto> userInDb = userService.findUserByEmail(userDto.getEmail());
 
         if (!userInDb.equals(Optional.empty())){
             bindingResult.rejectValue("email", "error.user",
                     "Istnieje już użytkownik o podanym emailu!");
-        }
-        if (bindingResult.hasErrors()){
-            modelAndView.setViewName("registration");
         }else {
             userService.saveUser(userDto);
-            modelAndView.addObject("successMessage", "Użytkownik został zarejestrowany");
-            modelAndView.addObject("userDto", new UserDto());
-            modelAndView.setViewName("registration");
+            model.addAttribute("successMessage", "Użytkownik został zarejestrowany");
+            model.addAttribute("userDto", new UserDto());
         }
-        return modelAndView;
+        return "registration";
     }
 }

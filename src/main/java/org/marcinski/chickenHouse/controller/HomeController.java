@@ -5,8 +5,8 @@ import org.marcinski.chickenHouse.dto.UserDto;
 import org.marcinski.chickenHouse.service.ChickenHouseService;
 import org.marcinski.chickenHouse.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.List;
@@ -24,8 +24,7 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public ModelAndView home(Principal principal){
-        ModelAndView modelAndView = new ModelAndView();
+    public String home(Principal principal, Model model){
         ChickenHouseDto chickenHouseDto = new ChickenHouseDto();
 
         String email = principal.getName();
@@ -34,14 +33,13 @@ public class HomeController {
         UserDto userDto;
         if (userByEmail.isPresent()){
             userDto = userByEmail.get();
-            modelAndView.addObject("greeting", "Cześć " + userDto.getName());
+            model.addAttribute("greeting", "Cześć " + userDto.getName());
         }
 
         List<ChickenHouseDto> chickenHouseDtos = chickenHouseService.findChickenHousesDtoByUserEmail(email);
 
-        modelAndView.addObject("chickenHouseDtos", chickenHouseDtos);
-        modelAndView.addObject("chickenHouseDto", chickenHouseDto);
-        modelAndView.setViewName("home");
-        return modelAndView;
+        model.addAttribute("chickenHouseDtos", chickenHouseDtos);
+        model.addAttribute("chickenHouseDto", chickenHouseDto);
+        return "home";
     }
 }

@@ -6,8 +6,8 @@ import org.marcinski.chickenHouse.dto.ForageDto;
 import org.marcinski.chickenHouse.service.CycleService;
 import org.marcinski.chickenHouse.service.DayService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -26,38 +26,28 @@ public class CycleController {
     }
 
     @PostMapping("/{chickenHouseId}")
-    public ModelAndView createCycle(@Valid CycleDto cycleDto, @PathVariable Long chickenHouseId){
-        ModelAndView modelAndView = new ModelAndView();
+    public String  createCycle(@Valid CycleDto cycleDto, @PathVariable Long chickenHouseId){
         cycleService.createCycle(cycleDto, chickenHouseId);
         //TODO validacja
-        modelAndView.setViewName("redirect:/home/" + chickenHouseId);
-
-        return modelAndView;
+        return "redirect:/home/" + chickenHouseId;
     }
 
     @PutMapping("/{id}")
-    public ModelAndView updateCycle(@Valid CycleDto cycleDto, @PathVariable Long id){
-        ModelAndView modelAndView = new ModelAndView();
-        long chickenHouseId = cycleService.updateCycle(cycleDto, id);
+    public String updateCycle(@Valid CycleDto cycleDto, @PathVariable Long id){
+        cycleService.updateCycle(cycleDto, id);
 
-        modelAndView.setViewName("redirect:/home/cycle/" + cycleDto.getId());
-
-        return modelAndView;
+        return "redirect:/home/cycle/" + cycleDto.getId();
     }
 
     @PutMapping("complete/{id}")
-    public ModelAndView updateCycle(@PathVariable Long id){
-        ModelAndView modelAndView = new ModelAndView();
+    public String updateCycle(@PathVariable Long id){
         long chickenHouseId = cycleService.completeCycle(id);
 
-        modelAndView.setViewName("redirect:/home/" + chickenHouseId);
-
-        return modelAndView;
+        return "redirect:/home/" + chickenHouseId;
     }
 
     @GetMapping("/{id}")
-    public ModelAndView getCycle(@PathVariable Long id){
-        ModelAndView modelAndView = new ModelAndView();
+    public String getCycle(@PathVariable Long id, Model model){
         DayDto dayDto = new DayDto();
         ForageDto forageDto = new ForageDto();
         CycleDto cycleDto = cycleService.getDtoById(id);
@@ -78,14 +68,13 @@ public class CycleController {
                 forages.add(dto.getForageDto());
             }
         }
-        modelAndView.addObject("cycle", cycleDto);
-        modelAndView.addObject("dayDto", dayDto);
-        modelAndView.addObject("actualNumberOfChicken", actualNumberOfChicken);
-        modelAndView.addObject("days", dayDtos);
-        modelAndView.addObject("forageDto", forageDto);
-        modelAndView.addObject("forages", forages);
-        modelAndView.setViewName("cycle");
+        model.addAttribute("cycle", cycleDto);
+        model.addAttribute("dayDto", dayDto);
+        model.addAttribute("actualNumberOfChicken", actualNumberOfChicken);
+        model.addAttribute("days", dayDtos);
+        model.addAttribute("forageDto", forageDto);
+        model.addAttribute("forages", forages);
 
-        return modelAndView;
+        return "cycle";
     }
 }
