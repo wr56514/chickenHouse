@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/home/cycle")
@@ -59,35 +58,32 @@ public class CycleController {
     @GetMapping("/{id}")
     public ModelAndView getCycle(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView();
-        Optional<CycleDto> cycleDtoById = cycleService.getById(id);
-        if (cycleDtoById.isPresent()){
-            CycleDto cycleDto = cycleDtoById.get();
-            DayDto dayDto = new DayDto();
-            ForageDto forageDto = new ForageDto();
-            List<DayDto> dayDtos = dayService.getAllDaysByCycleIdSortedByDayNumber(id);
-            int actualDayNumber = 1;
-            if (dayDtos.size() > 0){
-                actualDayNumber = dayDtos.get(0).getDayNumber() + 1;
-            }
-            dayDto.setDayNumber(actualDayNumber);
+        DayDto dayDto = new DayDto();
+        ForageDto forageDto = new ForageDto();
+        CycleDto cycleDto = cycleService.getDtoById(id);
 
-            int actualNumberOfChicken = cycleDto.getNumberOfChickens();
-            List<ForageDto> forages = new ArrayList<>();
-            for (DayDto dto : dayDtos) {
-                int allDowns = dto.getNaturalDowns() + dto.getSelectionDowns();
-                actualNumberOfChicken -= allDowns;
-                if (dayDto.getForageDto() != null){
-                    forages.add(dto.getForageDto());
-                }
-            }
-
-            modelAndView.addObject("cycle", cycleDto);
-            modelAndView.addObject("dayDto", dayDto);
-            modelAndView.addObject("actualNumberOfChicken", actualNumberOfChicken);
-            modelAndView.addObject("days", dayDtos);
-            modelAndView.addObject("forageDto", forageDto);
-            modelAndView.addObject("forages", forages);
+        List<DayDto> dayDtos = dayService.getAllDaysByCycleIdSortedByDayNumber(id);
+        int actualDayNumber = 1;
+        if (dayDtos.size() > 0){
+            actualDayNumber = dayDtos.get(0).getDayNumber() + 1;
         }
+        dayDto.setDayNumber(actualDayNumber);
+
+        int actualNumberOfChicken = cycleDto.getNumberOfChickens();
+        List<ForageDto> forages = new ArrayList<>();
+        for (DayDto dto : dayDtos) {
+            int allDowns = dto.getNaturalDowns() + dto.getSelectionDowns();
+            actualNumberOfChicken -= allDowns;
+            if (dto.getForageDto() != null){
+                forages.add(dto.getForageDto());
+            }
+        }
+        modelAndView.addObject("cycle", cycleDto);
+        modelAndView.addObject("dayDto", dayDto);
+        modelAndView.addObject("actualNumberOfChicken", actualNumberOfChicken);
+        modelAndView.addObject("days", dayDtos);
+        modelAndView.addObject("forageDto", forageDto);
+        modelAndView.addObject("forages", forages);
         modelAndView.setViewName("cycle");
 
         return modelAndView;

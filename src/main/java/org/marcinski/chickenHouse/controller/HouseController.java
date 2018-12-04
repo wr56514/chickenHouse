@@ -40,25 +40,21 @@ public class HouseController {
         LocalDate now = LocalDate.now();
         cycleDto.setStartDay(now);
 
-        Optional<ChickenHouseDto> chickenHouseById = chickenHouseService.getChickenHouseById(id);
-        if (chickenHouseById.isPresent()) {
-            String userEmailFromHouse = chickenHouseById.get().getUserDto().getEmail();
+        ChickenHouseDto chickenHouseById = chickenHouseService.getChickenHouseById(id);
+            String userEmailFromHouse = chickenHouseById.getUserDto().getEmail();
             String userEmailFromPrincipal = principal.getName();
 
-            if (userEmailFromHouse.equals(userEmailFromPrincipal)) {
-                chickenHouseDto.setName(chickenHouseById.get().getName());
-                chickenHouseDto.setAreaOfHouse(chickenHouseById.get().getAreaOfHouse());
-                List<CycleDto> cycleDtos = cycleService.getAllByChickenHouseIdOrderedByStartDayDesc(id);
+        if (userEmailFromHouse.equals(userEmailFromPrincipal)) {
+            chickenHouseDto.setName(chickenHouseById.getName());
+            chickenHouseDto.setAreaOfHouse(chickenHouseById.getAreaOfHouse());
+            List<CycleDto> cycleDtos = cycleService.getAllByChickenHouseIdOrderedByStartDayDesc(id);
 
-                modelAndView.addObject("house", chickenHouseById.get());
-                modelAndView.addObject("date", now);
-                modelAndView.addObject("cycleDto", cycleDto);
-                modelAndView.addObject("cyclesDto", cycleDtos);
-                modelAndView.addObject("actualChickenHouse", chickenHouseDto);
-                modelAndView.setViewName("house");
-            }
-        }else {
-            modelAndView.setViewName("redirect:/home");
+            modelAndView.addObject("house", chickenHouseById);
+            modelAndView.addObject("date", now);
+            modelAndView.addObject("cycleDto", cycleDto);
+            modelAndView.addObject("cyclesDto", cycleDtos);
+            modelAndView.addObject("actualChickenHouse", chickenHouseDto);
+            modelAndView.setViewName("house");
         }
         modelAndView.addObject("chickenHouseDto", chickenHouseDto);
 
@@ -93,21 +89,19 @@ public class HouseController {
                                   @PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView();
 
-        Optional<ChickenHouseDto> chickenHouseById = chickenHouseService.getChickenHouseById(id);
+        ChickenHouseDto chickenHouseById = chickenHouseService.getChickenHouseById(id);
 
-        if (chickenHouseById.isPresent()){
-            ChickenHouseDto house = chickenHouseById.get();
-            house.setName(chickenHouseDto.getName());
-            house.setAreaOfHouse(chickenHouseDto.getAreaOfHouse());
-            chickenHouseService.saveChickenHouse(house);
-        }
+        chickenHouseById.setName(chickenHouseDto.getName());
+        chickenHouseById.setAreaOfHouse(chickenHouseDto.getAreaOfHouse());
+        chickenHouseService.saveChickenHouse(chickenHouseById);
+
         modelAndView.setViewName("redirect:/home/" + chickenHouseDto.getId());
         return modelAndView;
     }
 
     @DeleteMapping("/{id}")
     public String deleteHouse(@PathVariable Long id){
-        chickenHouseService.deteleHouse(id);
+        chickenHouseService.deleteHouse(id);
         return "redirect:/home/";
     }
 }

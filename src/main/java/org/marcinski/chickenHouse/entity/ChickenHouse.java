@@ -12,7 +12,6 @@ import java.util.Set;
 @Entity
 @Table(name = "chicken_house")
 @Data
-@EqualsAndHashCode(exclude = "cycles")
 public class ChickenHouse {
 
     @Id

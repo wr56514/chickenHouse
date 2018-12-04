@@ -1,7 +1,7 @@
 package org.marcinski.chickenHouse.configuration;
 
+import org.marcinski.chickenHouse.mapper.UserMapper;
 import org.marcinski.chickenHouse.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,11 +18,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private BCryptPasswordEncoder encoder;
     private UserRepository userRepository;
+    private UserMapper userMapper;
 
-    @Autowired
-    public SecurityConfig(BCryptPasswordEncoder encoder, UserRepository userRepository) {
+
+    public SecurityConfig(BCryptPasswordEncoder encoder, UserRepository userRepository, UserMapper userMapper) {
         this.encoder = encoder;
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -60,6 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected UserDetailsService userDetailsService() {
-        return  new ApplicationUserDetailService(userRepository);
+        return  new ApplicationUserDetailService(userRepository, userMapper);
     }
 }

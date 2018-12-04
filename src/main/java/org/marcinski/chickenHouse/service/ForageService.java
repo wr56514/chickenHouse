@@ -10,13 +10,15 @@ import org.springframework.stereotype.Service;
 public class ForageService {
 
     private ForageRepository forageRepository;
+    private ForageMapper forageMapper;
 
-    public ForageService(ForageRepository forageRepository) {
+    public ForageService(ForageRepository forageRepository, ForageMapper forageMapper) {
         this.forageRepository = forageRepository;
+        this.forageMapper = forageMapper;
     }
 
     public ForageDto createForage(ForageDto forageDto){
-        Forage saved = forageRepository.save(ForageMapper.INSTANCE.mapTo(forageDto));
-        return ForageMapper.INSTANCE.mapTo(saved);
+        Forage saved = forageRepository.save(forageMapper.mapTo(forageDto));
+        return forageMapper.mapTo(saved);
     }
 }

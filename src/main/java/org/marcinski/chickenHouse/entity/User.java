@@ -1,6 +1,8 @@
 package org.marcinski.chickenHouse.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -11,6 +13,8 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 @Data
+@EqualsAndHashCode(exclude = "chickenHouses")
+@ToString(exclude = "chickenHouses")
 public class User {
 
     @Id
@@ -35,6 +39,6 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<ChickenHouse> chickenHouses;
 }
